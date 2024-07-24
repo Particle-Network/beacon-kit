@@ -21,6 +21,9 @@
 package spec
 
 import (
+	"os"
+	"strconv"
+
 	"github.com/berachain/beacon-kit/mod/chain-spec/pkg/chain"
 	gethprimitives "github.com/berachain/beacon-kit/mod/geth-primitives"
 	"github.com/berachain/beacon-kit/mod/primitives/pkg/common"
@@ -36,6 +39,7 @@ func DevnetChainSpec() chain.Spec[
 	any,
 ] {
 	testnetSpec := BaseSpec()
-	testnetSpec.DepositEth1ChainID = 80087
+	// testnetSpec.DepositEth1ChainID = 80087
+	testnetSpec.DepositEth1ChainID, _ = strconv.ParseUint(os.Getenv("EXEC_CHAIN_ID"), 10, 64) // 80087
 	return chain.NewChainSpec(testnetSpec)
 }
