@@ -1,7 +1,7 @@
 {
   "app_name": "beacond",
-  "app_version": "9735718d",
-  "genesis_time": "2024-09-07T12:16:07.826208Z",
+  "app_version": "6173ba39",
+  "genesis_time": "2024-09-07T12:58:16.854758Z",
   "chain_id": "beacond-2061",
   "initial_height": 1,
   "app_hash": null,
@@ -10,10 +10,10 @@
       "fork_version": "0x04000000",
       "deposits": [
         {
-          "pubkey": "0xaf5e30f4514f0ab106569a2d37833015f1c564578e53ff468772596792c02f2cc791c050abf4b9c4e54dd7b956d1468e",
+          "pubkey": "0x9024c5eaa8a8826a9ddda2d187722c7200c38dc1d5d507e0e0f67720c64539c3ab24c91358aa75540288f42588e6b4ab",
           "credentials": "0x0100000000000000000000000000000000000000000000000000000000000000",
           "amount": "0x773594000",
-          "signature": "0x9473470c79b0ba0b498f4901d46580a241359686db964a379304d144ac4944468b0323a660d3ccb9975538c5873f3b0e0382410f4ccc8be5c5a9e22a61e35bec8ef8cabd33128aa1356c31dd59712f3c50e732b771c3e566d311d881b927b270",
+          "signature": "0xaf4a9043fdee3b5238e0f1e5b1c0fbfc9812982a67bbd03b7ab71af1b656d0321d33d6270edac19ab462f592e275178c0b5d555b0a6ebc24d959012e498edb8a6c405f0a6f6d6be911ef3e787567b6fd42e3583f1f38f3ab8287f38fa3f90f99",
           "index": 0
         }
       ],
