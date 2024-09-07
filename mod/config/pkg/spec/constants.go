@@ -29,5 +29,5 @@ const (
 	DevnetEth1ChainID uint64 = 80087
 
 	// TestnetEth1ChainID is the chain ID for the bArtio testnet.
-	TestnetEth1ChainID uint64 = 80084
+	TestnetEth1ChainID uint64 = 2013
 )

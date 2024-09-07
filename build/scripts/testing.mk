@@ -29,6 +29,15 @@ TESTNET_CHAIN_SPEC = testnet
 BARTIO_NETWORK_FILES_DIR = ${TESTAPP_FILES_DIR}/../networks/80084
 BARTIO_ETH_GENESIS_PATH = ${BARTIO_NETWORK_FILES_DIR}/eth-genesis.json
 
+start-validator-locally: ## start an ephemeral `beacond` node
+	CHAIN_SPEC=$(TESTNET_CHAIN_SPEC) JWT_SECRET_PATH=$(JWT_PATH) ${TESTAPP_FILES_DIR}/entrypoint.sh 1 validator locally
+start-validator-1: ## start an ephemeral `beacond` node
+	JWT_SECRET_PATH=$(JWT_PATH) ${TESTAPP_FILES_DIR}/entrypoint.sh 1 validator 1
+start-node-init: ## start an ephemeral `beacond` node
+	JWT_SECRET_PATH=$(JWT_PATH) ${TESTAPP_FILES_DIR}/entrypoint.sh 1 node onlyInit
+start-node-run: ## start an ephemeral `beacond` node
+	JWT_SECRET_PATH=$(JWT_PATH) ${TESTAPP_FILES_DIR}/entrypoint.sh 1 node
+
 ## Testing:
 start: ## start an ephemeral `beacond` node
 	@JWT_SECRET_PATH=$(JWT_PATH) \
@@ -244,6 +253,22 @@ start-ethereumjs:
 	--isSingleNode \
 	--rpc \
 	--rpcAddr 0.0.0.0
+
+start-geth-init-local:
+	geth init --state.scheme "hash" --datadir ${ETH_DATA_DIR} ${ETH_GENESIS_PATH}
+
+start-geth-run-local:
+	geth \
+	--http \
+	--http.addr 0.0.0.0 \
+	--http.api eth,net,debug,txpool \
+	--authrpc.addr 0.0.0.0 \
+	--authrpc.jwtsecret $(JWT_PATH) \
+	--authrpc.vhosts "*" \
+	--datadir ${ETH_DATA_DIR} \
+	--ipcpath ${IPC_PATH} \
+	--rpc.allow-unprotected-txs \
+	--syncmode "snap"
 
 SHORT_FUZZ_TIME=10s
 MEDIUM_FUZZ_TIME=30s

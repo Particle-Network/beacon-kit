@@ -55,28 +55,42 @@ make build
 
 overwrite="N"
 if [ -d $HOMEDIR ]; then
-	printf "\nAn existing folder at '%s' was found. You can choose to delete this folder and start a new local node with new keys from genesis. When declined, the existing local node is started. \n" $HOMEDIR
-	echo "Overwrite the existing configuration and start a new local node? [y/n]"
-	read -r overwrite
-else	
-overwrite="Y"
+  if [ $1 == "1" ]; then
+    printf "\nAn existing folder at '%s' was found. skip overwrite\n" $HOMEDIR
+  else
+    printf "\nAn existing folder at '%s' was found. You can choose to delete this folder and start a new local node with new keys from genesis. When declined, the existing local node is started. \n" $HOMEDIR
+    echo "Overwrite the existing configuration and start a new local node? [y/n]"
+    read -r overwrite
+  fi
+else
+  overwrite="Y"
 fi
 
 # Setup local node if overwrite is set to Yes, otherwise skip setup
-if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
+if [[ $overwrite == "y" || $overwrite == "Y" || $3 == "onlyInit" ]]; then
 	rm -rf $HOMEDIR
-	./build/bin/beacond init $MONIKER \
-		--chain-id $CHAINID \
-		--home $HOMEDIR \
-		--consensus-key-algo $CONSENSUS_KEY_ALGO
-	
-	if [ "$CHAIN_SPEC" == "testnet" ]; then
-		cp -f testing/networks/80084/*.toml testing/networks/80084/genesis.json ${HOMEDIR}/config
-	else
-		./build/bin/beacond genesis add-premined-deposit --home $HOMEDIR
-		./build/bin/beacond genesis collect-premined-deposits --home $HOMEDIR 
-		./build/bin/beacond genesis execution-payload "$ETH_GENESIS" --home $HOMEDIR
-	fi
+
+	if [[ $2 == "validator" && $3 != "locally" ]]; then
+    cp -rf "./testing/files/beacond-validator-$3" $HOMEDIR/
+  else
+    ./build/bin/beacond init $MONIKER \
+    --chain-id $CHAINID \
+    --home $HOMEDIR \
+    --consensus-key-algo $CONSENSUS_KEY_ALGO
+  fi
+
+  if [[ $3 == "onlyInit" ]]; then
+    cp -rf ./testing/networks/2013/genesis.json $HOMEDIR/config/genesis.json
+    exit 0
+  fi
+
+  if [[ $3 == "locally" ]]; then
+    ./build/bin/beacond genesis add-premined-deposit --home $HOMEDIR
+    ./build/bin/beacond genesis collect-premined-deposits --home $HOMEDIR
+    ./build/bin/beacond genesis execution-payload "$ETH_GENESIS" --home $HOMEDIR
+
+    cp -f testing/networks/2013/*.toml ${HOMEDIR}/config
+  fi
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
