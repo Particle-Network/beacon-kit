@@ -255,7 +255,9 @@ start-ethereumjs:
 	--rpc \
 	--rpcAddr 0.0.0.0
 
-start-geth-init-local:
+start-geth-init:
+	rm -rf ${ETH_DATA_DIR}
+
 	geth init --state.scheme "hash" --datadir ${ETH_DATA_DIR} ${ETH_GENESIS_PATH}
 
 start-geth-run-local:
