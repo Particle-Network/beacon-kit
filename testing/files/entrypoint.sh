@@ -81,7 +81,7 @@ if [[ $overwrite == "y" || $overwrite == "Y" || $3 == "onlyInit" ]]; then
   fi
 
   if [[ $3 == "onlyInit" ]]; then
-    cp -f testing/networks/2013/*.toml ${HOMEDIR}/config/
+    cp -f testing/networks/2013/* ${HOMEDIR}/config/
 
     ./build/bin/beacond genesis execution-payload "$ETH_GENESIS" --home $HOMEDIR
     exit 0
