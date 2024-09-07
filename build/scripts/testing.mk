@@ -20,6 +20,7 @@ IPC_PATH = .tmp/eth-home/eth-engine.ipc
 HTTP_URL = localhost:8551
 IPC_PREFIX = ipc://
 HTTP_PREFIX = http://
+INTERNAL_IP := $(shell hostname -I | awk '{print $$1}')
 
 #################
 #    bartio     #
@@ -267,8 +268,30 @@ start-geth-run-local:
 	--authrpc.vhosts "*" \
 	--datadir ${ETH_DATA_DIR} \
 	--ipcpath ${IPC_PATH} \
+	--miner.gasprice 100000000 \
 	--rpc.allow-unprotected-txs \
 	--syncmode "snap"
+
+start-geth-archive-run:
+	geth \
+	--http \
+	--http.addr 0.0.0.0 \
+	--http.api eth,web3,net,debug,txpool \
+	--authrpc.addr 0.0.0.0 \
+	--authrpc.jwtsecret $(JWT_PATH) \
+	--authrpc.vhosts "*" \
+	--datadir ${ETH_DATA_DIR} \
+	--ipcpath ${IPC_PATH} \
+	--rpc.allow-unprotected-txs \
+	--syncmode "full" \
+	--state.scheme "hash" \
+	--gcmode "archive" \
+	--rpc.evmtimeout "10s" \
+	--txpool.globalslots 1000000 \
+	--txpool.globalqueue 3000000 \
+	--http.vhosts "*" \
+	--miner.gasprice 100000000 \
+	--nat extip:${INTERNAL_IP}
 
 SHORT_FUZZ_TIME=10s
 MEDIUM_FUZZ_TIME=30s
