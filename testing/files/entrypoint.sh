@@ -81,8 +81,7 @@ if [[ $overwrite == "y" || $overwrite == "Y" || $3 == "onlyInit" ]]; then
   fi
 
   if [[ $3 == "onlyInit" ]]; then
-    cp -rf ./testing/networks/2013/genesis.json $HOMEDIR/config/genesis.json
-    cp -f testing/networks/2013/*.toml ${HOMEDIR}/config
+    cp -f testing/networks/2013/*.toml ${HOMEDIR}/config/
     exit 0
   fi
 
