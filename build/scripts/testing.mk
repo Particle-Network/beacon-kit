@@ -21,6 +21,7 @@ HTTP_URL = localhost:8551
 IPC_PREFIX = ipc://
 HTTP_PREFIX = http://
 INTERNAL_IP := $(shell hostname -I | awk '{print $$1}')
+BOOT_NODES = "enode://5533b88ca0f7e9addbd8679a4014a7b639fecdb9cda1dab3bc7c2bc4d4569c499282bf748055c8601e49da16e932beec102ceec8d10ae8999a816c75bdd43bac@10.0.12.78:30303"
 
 #################
 #    bartio     #
@@ -293,6 +294,7 @@ start-geth-archive-run:
 	--txpool.globalqueue 3000000 \
 	--http.vhosts "*" \
 	--miner.gasprice 100000000 \
+	--bootnodes "${BOOT_NODES}" \
 	--nat extip:${INTERNAL_IP}
 
 SHORT_FUZZ_TIME=10s

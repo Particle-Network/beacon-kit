@@ -46,6 +46,7 @@ HOMEDIR="./.tmp/beacond"
 GENESIS=$HOMEDIR/config/genesis.json
 TMP_GENESIS=$HOMEDIR/config/tmp_genesis.json
 ETH_GENESIS=$(resolve_path "./testing/files/eth-genesis.json")
+PERSISTENT_PEERS="14981eec97bf427e59626de73628ba17163dac8b@10.0.12.78:26656"
 
 # used to exit on first error (any non-zero exit code)
 set -e
@@ -98,6 +99,7 @@ BEACON_START_CMD="./build/bin/beacond start --pruning=nothing "$TRACE" \
 --beacon-kit.logger.log-level $LOGLEVEL --home $HOMEDIR \
 --beacon-kit.engine.jwt-secret-path ${JWT_SECRET_PATH} \
 --beacon-kit.block-store-service.enabled \
+--p2p.persistent_peers $PERSISTENT_PEERS \
 --beacon-kit.node-api.enabled --beacon-kit.node-api.logging"
 
 # Conditionally add the rpc-dial-url flag if RPC_DIAL_URL is not empty
